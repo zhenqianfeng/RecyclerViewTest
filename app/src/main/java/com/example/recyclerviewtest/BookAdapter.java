@@ -18,14 +18,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder>{
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView name, pages, isbn;
-        Button b;
+        Button btnAvailability, btnCheckout;
 
         MyViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.txt_name);
             pages = view.findViewById(R.id.txt_page);
             isbn = view.findViewById(R.id.txt_ISBN);
-            b = view.findViewById(R.id.btn_test);
+            btnAvailability = view.findViewById(R.id.btn_test);
+            btnCheckout = view.findViewById(R.id.btn_checkout);
         }
     }
 
@@ -45,13 +46,24 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder>{
         viewHolder.pages.setText(book.getPage()+"");
         viewHolder.isbn.setText(book.getISBN()+"");
 
-        viewHolder.b.setOnClickListener(new View.OnClickListener() {
+        viewHolder.btnAvailability.setOnClickListener(new View.OnClickListener() {
             String showMsg;
             @Override
             public void onClick(View v) {
                 if(book.isLent())showMsg = "Not available";
                 else showMsg = "Available";
                 Toast.makeText(v.getContext(),showMsg,Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+        viewHolder.btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(v.getContext(), String.valueOf(book.getISBN()),
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
