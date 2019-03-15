@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder>{
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView name, pages, isbn;
         Button btnAvailability, btnCheckout;
+        ToggleButton btnToggle;
 
         MyViewHolder(View view) {
             super(view);
@@ -27,6 +29,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder>{
             isbn = view.findViewById(R.id.txt_ISBN);
             btnAvailability = view.findViewById(R.id.btn_test);
             btnCheckout = view.findViewById(R.id.btn_checkout);
+            btnToggle = view.findViewById(R.id.toggleButton2);
         }
     }
 
@@ -40,11 +43,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final BookAdapter.MyViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final BookAdapter.MyViewHolder viewHolder, final int i) {
         final Book book=bookList.get(i);
         viewHolder.name.setText(book.getName());
         viewHolder.pages.setText(book.getPage()+"");
         viewHolder.isbn.setText(book.getISBN()+"");
+        viewHolder.btnToggle.setChecked(book.isLent());
 
         viewHolder.btnAvailability.setOnClickListener(new View.OnClickListener() {
             String showMsg;
@@ -62,8 +66,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder>{
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(v.getContext(), String.valueOf(book.getISBN()),
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(v.getContext(), String.valueOf(book.getISBN()),
+//                        Toast.LENGTH_LONG).show();
+
+                book.setLent(!book.isLent());
+                bookList.set(i,book);
+                notifyDataSetChanged();
             }
         });
     }
